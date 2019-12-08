@@ -83,11 +83,9 @@ async function getTinyFaceNetModel(imageURI) {
         croppedCanvasContext.putImageData(croppedImageData, 0, 0);
         var croppedBuffer = croppedCanvas.toBuffer();
         fs.writeFileSync("CroppedFace" + ".png", croppedBuffer);
-        ctx.strokeRect(xPos, yPos, finalWidth, finalHeight);
         foundFace = true;
     });
     var buf = canvasCreated.toBuffer();
-    fs.writeFileSync(imageURI + "WithRects.png", buf);
     if (foundFace) {
         tweetImage('CroppedFace.png');
     }
