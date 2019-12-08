@@ -19,29 +19,29 @@ faceapi.env.monkeyPatch({ Canvas, Image, ImageData });
 
 const tinyFaceNet = faceapi.nets.tinyFaceDetector;
 //getTinyFaceNetModel('wikiHowImage' + 0);
-//getWikiHowImages();
+getWikiHowImages();
+function tweetImage() {
+    var b64content = fs.readFileSync('CroppedFace0.png', { encoding: 'base64' });
 
-var b64content = fs.readFileSync('CroppedFace0.png', { encoding: 'base64' });
+    T.post('media/upload', { media_data: b64content }, function (err, data, response) {
 
-T.post('media/upload', { media_data: b64content }, function (err, data, response) {
+        var mediaIdStr = data.media_id_string;
+        var altText = "Wikihow face";
+        var meta_params = { media_id: mediaIdStr, alt_text: { text: altText } }
 
-    var mediaIdStr = data.media_id_string;
-    var altText = "Wikihow face";
-    var meta_params = { media_id: mediaIdStr, alt_text: { text: altText } }
+        T.post('media/metadata/create', meta_params, function (err, data, response) {
+            if (!err) {
+                // now we can reference the media and post a tweet (media will attach to the tweet)
+                var params = { status: '', media_ids: [mediaIdStr] }
 
-    T.post('media/metadata/create', meta_params, function (err, data, response) {
-        if (!err) {
-            // now we can reference the media and post a tweet (media will attach to the tweet)
-            var params = { status: '', media_ids: [mediaIdStr] }
+                T.post('statuses/update', params, function (err, data, response) {
+                    console.log(data)
+                })
+            }
+        });
 
-            T.post('statuses/update', params, function (err, data, response) {
-                console.log(data)
-            })
-        }
     });
-
-});
-
+}
 
 
 
@@ -88,6 +88,9 @@ async function getTinyFaceNetModel(imageURI) {
     fs.writeFileSync(imageURI + "WithRects.png", buf);
     if (!foundFace) {
         getWikiHowImages();
+    }
+    else {
+        tweetImage();
     }
 }
 
