@@ -9,14 +9,13 @@
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "dotenv": "^8.2.0",
-    "twit": "^2.2.11"
-  },
+  "devDependencies": {},
   "dependencies": {
     "@tensorflow/tfjs-core": "^1.2.9",
     "@tensorflow/tfjs-node": "^1.2.9",
     "canvas": "^2.6.0",
-    "face-api.js": "^0.21.0"
+    "face-api.js": "^0.21.0",
+    "dotenv": "^8.2.0",
+    "twit": "^2.2.11"
   }
 }
