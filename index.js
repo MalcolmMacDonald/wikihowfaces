@@ -20,6 +20,7 @@ faceapi.env.monkeyPatch({ Canvas, Image, ImageData });
 const tinyFaceNet = faceapi.nets.tinyFaceDetector;
 //getTinyFaceNetModel('wikiHowImage' + 0);
 getWikiHowImages();
+
 function tweetImage() {
     var b64content = fs.readFileSync('CroppedFace0.png', { encoding: 'base64' });
 
