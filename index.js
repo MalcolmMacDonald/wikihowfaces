@@ -18,11 +18,12 @@ const T = new twit(config);
 faceapi.env.monkeyPatch({ Canvas, Image, ImageData });
 
 const tinyFaceNet = faceapi.nets.tinyFaceDetector;
-//getTinyFaceNetModel('wikiHowImage' + 0);
+
+
 getWikiHowImages();
 
-function tweetImage() {
-    var b64content = fs.readFileSync('CroppedFace0.png', { encoding: 'base64' });
+function tweetImage(imageURL) {
+    var b64content = fs.readFileSync(imageURL, { encoding: 'base64' });
 
     T.post('media/upload', { media_data: b64content }, function (err, data, response) {
 
@@ -87,11 +88,11 @@ async function getTinyFaceNetModel(imageURI) {
     });
     var buf = canvasCreated.toBuffer();
     fs.writeFileSync(imageURI + "WithRects.png", buf);
-    if (!foundFace) {
-        getWikiHowImages();
+    if (foundFace) {
+        tweetImage('CroppedFace.png');
     }
     else {
-        tweetImage();
+        getWikiHowImages();
     }
 }
 
